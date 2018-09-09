@@ -134,7 +134,7 @@
 	        	<groupId>org.springframework.boot</groupId>
 	            <artifactId>spring-boot-maven-plugin</artifactId>
 	        	<configuration>
-	                <mainClass>com.okex.OkexTrandeApplication</mainClass>
+	                <mainClass>com.trade.BinanceTradeApplication</mainClass>
 	            </configuration>
 	            <executions>
 	                <execution>

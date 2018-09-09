@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan("com.okex.mybatis.dao")
+@MapperScan("com.trade.mybatis.binance.dao")
 @EnableTransactionManagement
 public class DataSourceConfig {
 

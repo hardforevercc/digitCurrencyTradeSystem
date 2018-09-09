@@ -34,10 +34,10 @@ ribbon:
   
 mybatis:
   mapper-locations: classpath:mapper/com/okex/mybatis/*.xml
-  type-aliases-package: com.okex.mybatis.dao
+  type-aliases-package: com.trade.mybatis.binance.dao
 
 mapper:
-  mappers:  com.okex.mybatis.dao
+  mappers:  com.trade.mybatis.binance.dao
   not-empty: false
   identity: MYSQL
 

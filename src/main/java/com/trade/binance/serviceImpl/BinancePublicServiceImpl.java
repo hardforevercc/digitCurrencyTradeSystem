@@ -23,7 +23,7 @@ public class BinancePublicServiceImpl implements BinancePublicServiceI {
 			String priceMsg = HttpProxyClientUtils.sendGet(priceUrl, null, isProxy);
 			price = new BigDecimal(JSONObject.parseObject(priceMsg).getString("price"));
 		}catch(Exception e) {
-			throw new BusinessException("查询价格异常");
+			throw new BusinessException("查询价格异常",e);
 		}
 			
 		return price;

@@ -23,7 +23,7 @@ public class SignatureUtils {
 	 * @param secret
 	 * @return 加密加签字符串
 	 */
-	public static String encrypt(Map<String,String> map,String secret) {		
+	public static String encrypt(Map<String,Object> map,String secret) {		
 		String sortStr = SignatureUtils.signBody(map);
 		String finalStr = sortStr +"&secret_key="+secret;
 		return getMD5Str(finalStr);
@@ -34,18 +34,19 @@ public class SignatureUtils {
 	 * @param secret
 	 * @return
 	 */
-	public static String enHmacSHA256(Map<String,String> map,String secret) {		
+	public static String enHmacSHA256(Map<String,Object> map,String secret) {		
 		String sortStr = SignatureUtils.signBody(map);
-		System.out.println(sortStr);
+		//System.out.println(sortStr);
 		String finalStr = sortStr;// +"&secret_key="+secret;
-		return getHMAC_SHA256(finalStr,secret);
+		finalStr = sortStr + "&signature="+getHMAC_SHA256(finalStr,secret);
+		return finalStr;
 	}
 	/**
 	 * 排序并加签
 	 * @param params
 	 * @return
 	 */
-	public static String signBody(Map<String,String> params) {
+	public static String signBody(Map<String,Object> params) {
 		    
 		List<String> paramKeys = new LinkedList(); 
 		for(Map.Entry entry:params.entrySet()){
@@ -128,6 +129,7 @@ public class SignatureUtils {
 	         hs.append(stmp);    
 	    }      
 	   return hs.toString().toLowerCase();   
-	 }   
+	 }
+	
     
 }
