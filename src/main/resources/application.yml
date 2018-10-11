@@ -33,7 +33,7 @@ ribbon:
   ConnectTimeout: 5000
   
 mybatis:
-  mapper-locations: classpath:mapper/com/okex/mybatis/*.xml
+  mapper-locations: classpath:mapper/com/binance/mybatis/*.xml
   type-aliases-package: com.trade.mybatis.binance.dao
 
 mapper:
