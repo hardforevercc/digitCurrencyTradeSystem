@@ -42,9 +42,9 @@ public class BinanceTradeServiceImpl implements BinanceTradeServiceI {
 		String respMsg = null;
 		Map<String,Object> map = null;
 		try {
-			log.info("reqMsg:"+JSONObject.toJSONString(reqMap));
+			log.info(URLEnums.ACCOUNTURL.getDesc()+"请求信息:"+JSONObject.toJSONString(reqMap));
 			respMsg = HttpProxyClientUtils.sendGet(URLEnums.ACCOUNTURL.getUrl(), secretMsg, isProxy);
-			log.info(URLEnums.ACCOUNTURL.getDesc()+":"+respMsg);
+			log.info(URLEnums.ACCOUNTURL.getDesc()+"响应信息:"+respMsg);
 			JSONArray respArray = JSONObject.parseObject(respMsg).getJSONArray("balances");			
 			JSONObject currency = null;
 			map = new HashMap<String,Object>();
@@ -62,7 +62,7 @@ public class BinanceTradeServiceImpl implements BinanceTradeServiceI {
 		}catch(Exception e) {
 			throw new BusinessException(URLEnums.ACCOUNTURL.getDesc()+"异常",e);
 		}
-		
+		log.info("账户余额:"+JSONObject.toJSONString(map));
 		return JSONObject.toJSONString(map);
 	}
 
