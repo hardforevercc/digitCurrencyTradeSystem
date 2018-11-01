@@ -12,4 +12,6 @@ public interface BinancePublicServiceI {
 	 * @throws BusinessException 
 	 */
 	public BigDecimal getPrice(String symbol) throws BusinessException;
+	
+	public String getTimestamp()  throws BusinessException;
 }

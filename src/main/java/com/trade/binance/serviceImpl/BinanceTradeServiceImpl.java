@@ -3,12 +3,14 @@ package com.trade.binance.serviceImpl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.trade.binance.bean.OrderReqBean;
 import com.trade.binance.enums.URLEnums;
+import com.trade.binance.serviceI.BinancePublicServiceI;
 import com.trade.binance.serviceI.BinanceTradeServiceI;
 import com.trade.exception.BusinessException;
 import com.trade.utils.HttpProxyClientUtils;
@@ -20,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 public class BinanceTradeServiceImpl implements BinanceTradeServiceI {
 	private static final String SECRET = "dhBqV9dgobHNUcMfrceVbKiFw7el7oTcb5phx2cpXBjMYXPZrnPCpYJ0VCn2QmkI";
 	private static boolean isProxy = true;
+	@Autowired
+	BinancePublicServiceI publicService;
 	@Override
 	public String postNewOrder(OrderReqBean reqstBean) throws BusinessException {
 		Map<String, Object> reqMap = JSONObject.parseObject(JSONObject.toJSONString(reqstBean));
@@ -37,7 +41,7 @@ public class BinanceTradeServiceImpl implements BinanceTradeServiceI {
 	public String getAccountInfo() throws BusinessException {
 		Map<String,Object> reqMap = new HashMap<String,Object>();
 		reqMap.put("recvWindow", 5000);
-		reqMap.put("timestamp", System.currentTimeMillis());
+		reqMap.put("timestamp", publicService.getTimestamp());
 		String secretMsg = SignatureUtils.enHmacSHA256(reqMap, SECRET);
 		String respMsg = null;
 		Map<String,Object> map = null;

@@ -3,7 +3,8 @@ package com.trade.binance.enums;
 public enum URLEnums {
 	PRICEURL("https://api.binance.com/api/v3/ticker/price","最近交易价格"),
 	ACCOUNTURL("https://api.binance.com/api/v3/account","账户信息"),
-	ORDERURL("https://api.binance.com/api/v3/order","下单请求");
+	ORDERURL("https://api.binance.com/api/v3/order","下单请求"),
+	TIMEURL("https://api.binance.com/api/v1/time","交易时间");
 	private String url;
 	private String desc;
 	
