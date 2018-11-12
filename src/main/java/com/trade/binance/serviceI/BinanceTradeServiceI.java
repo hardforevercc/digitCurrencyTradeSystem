@@ -2,6 +2,7 @@ package com.trade.binance.serviceI;
 
 import java.math.BigDecimal;
 
+import com.trade.binance.bean.AccInfoBean;
 import com.trade.binance.bean.OrderReqBean;
 import com.trade.exception.BusinessException;
 
@@ -14,5 +15,5 @@ public interface BinanceTradeServiceI {
 	 */
 	public String postNewOrder(OrderReqBean reqstBean) throws BusinessException;
 	
-	public String getAccountInfo() throws BusinessException;
+	public AccInfoBean getAccountInfo() throws BusinessException;
 }

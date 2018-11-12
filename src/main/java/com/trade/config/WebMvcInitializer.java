@@ -41,7 +41,7 @@ public class WebMvcInitializer implements ServletContextInitializer {
         ServletRegistration.Dynamic dispatcherServlet =
                 servletContext.addServlet("dispatcherServlet", new DispatcherServlet(webApplicationContext));
         dispatcherServlet.setLoadOnStartup(1);
-        dispatcherServlet.addMapping("/trade/*");
+        dispatcherServlet.addMapping("/tradeSys/*");
 
         // Session cookie config
         SessionCookieConfig sessionCookieConfig = servletContext.getSessionCookieConfig();

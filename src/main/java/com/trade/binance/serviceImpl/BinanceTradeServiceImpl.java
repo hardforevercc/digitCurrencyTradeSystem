@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.trade.binance.bean.AccInfoBean;
 import com.trade.binance.bean.OrderReqBean;
 import com.trade.binance.enums.URLEnums;
 import com.trade.binance.serviceI.BinancePublicServiceI;
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BinanceTradeServiceImpl implements BinanceTradeServiceI {
 	private static final String SECRET = "dhBqV9dgobHNUcMfrceVbKiFw7el7oTcb5phx2cpXBjMYXPZrnPCpYJ0VCn2QmkI";
 	private static boolean isProxy = true;
+	private static AccInfoBean accInfo = null;
 	@Autowired
 	BinancePublicServiceI publicService;
 	@Override
@@ -38,36 +40,36 @@ public class BinanceTradeServiceImpl implements BinanceTradeServiceI {
 		return respMsg;
 	}
 	@Override
-	public String getAccountInfo() throws BusinessException {
+	public AccInfoBean getAccountInfo() throws BusinessException {
 		Map<String,Object> reqMap = new HashMap<String,Object>();
 		reqMap.put("recvWindow", 5000);
 		reqMap.put("timestamp", publicService.getTimestamp());
 		String secretMsg = SignatureUtils.enHmacSHA256(reqMap, SECRET);
 		String respMsg = null;
-		Map<String,Object> map = null;
+		accInfo = new AccInfoBean();
 		try {
 			log.info(URLEnums.ACCOUNTURL.getDesc()+"请求信息:"+JSONObject.toJSONString(reqMap));
 			respMsg = HttpProxyClientUtils.sendGet(URLEnums.ACCOUNTURL.getUrl(), secretMsg, isProxy);
 			log.info(URLEnums.ACCOUNTURL.getDesc()+"响应信息:"+respMsg);
 			JSONArray respArray = JSONObject.parseObject(respMsg).getJSONArray("balances");			
 			JSONObject currency = null;
-			map = new HashMap<String,Object>();
+			
 			for(int i = 0;i < respArray.size();i++) {
 				currency = respArray.getJSONObject(i);
 				if("USDT".equals(currency.getString("asset"))) {
-					map.put("usdtFree", currency.getBigDecimal("free"));
-					map.put("usdtLock",currency.getBigDecimal("locked"));
+					accInfo.setUsdtFree(currency.getBigDecimal("free"));
+					accInfo.setUsdtLock(currency.getBigDecimal("locked"));
 				}
 				if("ADA".equals(currency.getString("asset"))) {
-					map.put("adaFree", currency.getBigDecimal("free"));
-					map.put("adatLock",currency.getBigDecimal("locked"));
+					accInfo.setAdaFree(currency.getBigDecimal("free"));
+					accInfo.setAdaLock(currency.getBigDecimal("locked"));
 				}
 			}
 		}catch(Exception e) {
 			throw new BusinessException(URLEnums.ACCOUNTURL.getDesc()+"异常",e);
 		}
-		log.info("账户余额:"+JSONObject.toJSONString(map));
-		return JSONObject.toJSONString(map);
+		log.info("账户余额:"+JSONObject.toJSONString(accInfo));
+		return accInfo;
 	}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.trade.binance.bean.AccInfoBean;
 import com.trade.binance.serviceI.BinancePublicServiceI;
 import com.trade.binance.serviceI.BinanceTradeServiceI;
 import com.trade.exception.BusinessException;
@@ -25,7 +26,7 @@ public class BinanceTradeController {
 	@Autowired
 	BinancePublicServiceI binancePublicService;
 	@RequestMapping(value = "/getAcInfo")
-	public String getAcInfo(HttpServletRequest request) throws BusinessException {
+	public AccInfoBean getAcInfo(HttpServletRequest request) throws BusinessException {
 		return binanceTradeService.getAccountInfo();
 		
 	}
