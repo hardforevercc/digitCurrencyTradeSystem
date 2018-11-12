@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.trade.binance.bean.AccInfoBean;
+import com.trade.binance.bean.OrderReqBean;
 import com.trade.binance.serviceI.BinancePublicServiceI;
 import com.trade.binance.serviceI.BinanceTradeServiceI;
 import com.trade.exception.BusinessException;
@@ -40,6 +41,20 @@ public class BinanceTradeController {
 			log.error("接收币值对转换异常",e);
 		}
 		return binancePublicService.getPrice(reqMsg);
+		
+	}
+	
+	@RequestMapping(value = "/getOrder")
+	public String getOrder(HttpServletRequest request) throws BusinessException {
+		String reqMsg = null;
+		OrderReqBean reqBean = null;
+		try {
+			reqMsg = HttpUtils.getMsg(request);
+			reqBean = JSONObject.parseObject(reqMsg,OrderReqBean.class);
+		} catch (IOException e) {
+			log.error("接收币值对转换异常",e);
+		}
+		return binanceTradeService.postNewOrder(reqBean);
 		
 	}
 }

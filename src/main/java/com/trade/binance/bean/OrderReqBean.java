@@ -11,5 +11,7 @@ public class OrderReqBean {
 	private BigDecimal quantity;
 	private BigDecimal price;
 	private String newClientOrderId;
-	private long timestamp;
+	private String timestamp;
+	private long recvWindow;
+	private String timeInForce;
 }

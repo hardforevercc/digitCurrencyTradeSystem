@@ -28,10 +28,15 @@ public class BinanceTradeServiceImpl implements BinanceTradeServiceI {
 	BinancePublicServiceI publicService;
 	@Override
 	public String postNewOrder(OrderReqBean reqstBean) throws BusinessException {
+		
+		reqstBean.setTimestamp(publicService.getTimestamp());		
+		reqstBean.setRecvWindow(5000L);
+		log.info(JSONObject.toJSONString(reqstBean));
 		Map<String, Object> reqMap = JSONObject.parseObject(JSONObject.toJSONString(reqstBean));
 		String secretMsg = SignatureUtils.enHmacSHA256(reqMap, SECRET);
 		String respMsg = null;
 		try {
+			
 			respMsg = HttpProxyClientUtils.sendPost(URLEnums.ORDERURL.getUrl(), secretMsg, isProxy);
 		}catch(Exception e) {
 			throw new BusinessException(URLEnums.ORDERURL.getDesc()+"异常",e);
